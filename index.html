@@ -67,7 +67,7 @@ polyline{
 	}
 
    var queryrequest = "";
-   var sensordata;
+   var sensordata = "?sensor_type=Visible_Light&day=2016-09-08";
 
    //http://myihab.ddns.net/?sensor_type=Magnetic&day=2016-09-08
 
@@ -123,10 +123,13 @@ polyline{
 		    <label for="inputSensorType" class="col-sm-2 control-label">Sensor Type</label>
 		    <div class="col-sm-10" style="width:400px">
 		      	<select id="inputsensor" class="form-control"  >
-					  <option value="Temperature">Temperature</option>
-					  <option value="Humidity">Humidity</option>
 					  <option value="Visible_Light">Visible Light</option>
 					  <option value="Infrared_Light">Infrared Light</option>
+					  <option value="Temperature">Temperature</option>
+					  <option value="Humidity">Humidity</option>
+					  <option value="Acoustic">Acoustic</option>
+					  <option value="Pir">Movement</option>
+					  <option value="Magnetic">Door</option>
 				</select>
 		    </div>
 		  </div>
@@ -251,7 +254,7 @@ polyline{
 					.append("text")
 					.attr("dy", ".35em")
 					.text(function(d) {
-						return d.data.label;
+						return d.data.label + " (" + d.data.value + ")";
 					});
 				
 				function midAngle(d){

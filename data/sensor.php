@@ -1,6 +1,8 @@
 <?php
 header('Content-type: application/json');
 
+// FAKE DATA
+
 $arr = array();
 
 for($h = 0; $h<24; $h++){

@@ -84,6 +84,7 @@ polyline{
    function getData(){
    		var jsonurl = "data/sensor.php";
    		jsonurl = "http://myihab.ddns.net/";
+   		//jsonurl = "data/mote.php";
 
 		d3.json(jsonurl+ queryrequest, function(error, djson){
 			sensordata = djson

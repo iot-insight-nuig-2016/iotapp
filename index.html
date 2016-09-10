@@ -44,18 +44,23 @@ polyline{
 
 <script>
   $( function() {
+
     $( "#slider" ).slider({
       value:0,
       min: 0,
-      max: 24,
+      max: 23,
       step: 1,
       slide: function( event, ui ) {
-        $( "#amount" ).text( ui.value + "h" );
+        $( "#amount" ).text( ui.value + ":00 - " + (ui.value+1) + ":00" );
         //change(sensordata[ui.value+"h"]);
         updateData(ui.value);
       }
     });
+
     $( "#amount" ).val( "$" + $( "#slider" ).slider( "value" ) );
+
+    getData(0);
+
   } );
  </script>
 
@@ -66,14 +71,14 @@ polyline{
 	  return str.length < max ? pad("0" + str, max) : str;
 	}
 
-   var queryrequest = "";
-   var sensordata = "?sensor_type=Visible_Light&day=2016-09-08";
+   var queryrequest = "?sensor_type=Visible_Light&day=2016-09-08";
+   var sensordata ;
 
    //http://myihab.ddns.net/?sensor_type=Magnetic&day=2016-09-08
 
    function updateQueryRequest(){
    		queryrequest = "?day=" + $("#inputdate").val() + "&sensor_type=" + $("#inputsensor").val();
-   		getData(0);
+   		getData();
    }
 
    function getData(){
@@ -87,9 +92,10 @@ polyline{
    }
 
    function updateData(hour){
-   		change(sensordata[pad(hour,2)]);
+   		if(sensordata[pad(hour,2)]!== undefined){
+   			change(sensordata[pad(hour,2)]);
+   		}
    }
-
 
  </script>
 
@@ -206,14 +212,6 @@ polyline{
 			}
 
 
-
-			//--------------- Rathachai -----------
-			
-			updateData(0);
-
-			//---------------- /Rathachai ----------
-
-
 			d3.select(".randomize")
 				.on("click", function(){
 					change(sensordata[(Math.floor(Math.random() * 24))]);
@@ -248,7 +246,7 @@ polyline{
 				/* ------- TEXT LABELS -------*/
 
 				var text = svg.select(".labels").selectAll("text")
-					.data(pie(data), key);
+					.data(pie(data), key); 
 
 				text.enter()
 					.append("text")
@@ -281,7 +279,10 @@ polyline{
 							var d2 = interpolate(t);
 							return midAngle(d2) < Math.PI ? "start":"end";
 						};
-					});
+					})
+					.text(function(d) {
+						return d.data.label + " (" + d.data.value + ")";
+					});;
 
 				text.exit()
 					.remove();
@@ -310,6 +311,7 @@ polyline{
 				polyline.exit()
 					.remove();
 			};
+
 
 			</script>
 

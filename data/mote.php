@@ -7,13 +7,17 @@ header("Access-Control-Allow-Origin: *");
 // Turn off all error reporting
 error_reporting(0);
 
+// SERVER DOMAIN
+$IOTSERVER = "http://vmvital04.deri.ie";
+
+
 /// input values
 $sensor_type = $_REQUEST["sensor_type"];
 $day = $_REQUEST["day"];
 
 
 //// GET all sensors information
-$path = "http://vmvital04.deri.ie/living_lab/motes";
+$path = "$IOTSERVER/living_lab/motes";
 
 $get_motes = curl_init();
 curl_setopt_array($get_motes, array(
@@ -29,7 +33,7 @@ foreach($motes_data as $key => $mote)
 }
 
 //// GET all sensors information
-$path = "http://vmvital04.deri.ie/living_lab/sensors";
+$path = "$IOTSERVER/living_lab/sensors";
 
 $get_sensors = curl_init();
 curl_setopt_array($get_sensors, array(
@@ -47,7 +51,7 @@ foreach($sensors_data as $key => $sensor)
 //var_dump($sensor_list);
 $output_tmp = array();
 foreach ($sensor_list as $key => $sensor){
-	$path = "http://vmvital04.deri.ie/living_lab/sensor_data/". $sensor->sensor_id . "/" . $day . " 00:00:00/" . $day . " 23:59:59";
+	$path = "$IOTSERVER/living_lab/sensor_data/". $sensor->sensor_id . "/" . $day . " 00:00:00/" . $day . " 23:59:59";
 	
 	$get_data = curl_init();
 	curl_setopt_array($get_data, array(
